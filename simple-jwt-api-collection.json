@@ -14,7 +14,13 @@
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {\r",
 							"\tpm.response.to.have.status(200);\r",
-							"});"
+							"});\r",
+							"\r",
+							"pm.test(\"Response Body is correct\", function () {\r",
+							"\tvar data = pm.response.text();\r",
+							"\tconsole.log(data)\r",
+							"    pm.expect(data).to.eql('\"Healthy\"\\n');\r",
+							"})"
 						],
 						"type": "text/javascript"
 					}
@@ -48,6 +54,12 @@
 							"\tvar token = data.token;\r",
 							"\tpm.globals.set(\"token\", token);\r",
 							"\tconsole.log(token)\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Token is exist\", function () {\r",
+							"\tvar data = pm.response.json();\r",
+							"\tpm.expect(data).to.have.property('token');\r",
+							"\tconsole.log(data)\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -105,7 +117,7 @@
 							"pm.test(\"Status code is 200\", function () {\r",
 							"\tpm.response.to.have.status(200);\r",
 							"});\r",
-							"pm.test(\"Reponse Body is correct\", function () {\r",
+							"pm.test(\"Response Body is correct\", function () {\r",
 							"\tvar data = pm.response.json();\r",
 							"\tconsole.log(data)\r",
 							"\tpm.expect(data).to.have.property('email');\r",
