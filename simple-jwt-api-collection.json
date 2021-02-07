@@ -1,0 +1,126 @@
+{
+	"info": {
+		"_postman_id": "78a32635-5ee4-433a-a9c3-8d5f26a76c59",
+		"name": "simple-jwt-api-collections",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get-jwt-token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"\tpm.response.to.have.status(200);\r",
+							"\tvar data = pm.response.json();\r",
+							"\tvar token = data.token;\r",
+							"\tpm.globals.set(\"token\", token);\r",
+							"\tconsole.log(token)\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"email\":\"test@mail.ru\",\r\n\t\"password\":\"password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/auth",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"auth"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Request [post] for getting jwt token from API server"
+			},
+			"response": []
+		},
+		{
+			"name": "get-contents",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"\tpm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Reponse Body is correct\", function () {\r",
+							"\tvar data = pm.response.json();\r",
+							"\tconsole.log(data)\r",
+							"\tpm.expect(data).to.have.property('email');\r",
+							"\tpm.expect(data).to.have.property('exp');\r",
+							"\tpm.expect(data).to.have.property('nbf');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/contents",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"contents"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "",
+				"type": "string"
+			}
+		]
+	}
+}
